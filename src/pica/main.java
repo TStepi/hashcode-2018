@@ -1,5 +1,7 @@
 package pica;
 
+import java.util.ArrayList;
+
 public class main {
 
     public main() {
@@ -8,7 +10,7 @@ public class main {
 
     public static void main(String[] args) {
         String inputData = args[0];
-        
+        ArrayList<String> temp;
 
     }
 
