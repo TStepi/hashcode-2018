@@ -20,7 +20,5 @@ public class Pizza {
                 m_Pizza[r - 1][c] = line.charAt(m_C) == 'M'; 
             }
         }
-        
     }
-
 }
