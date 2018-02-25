@@ -29,7 +29,7 @@ public class Evolution {
             for (int j=i+1; j<population.size(); j++){
                 parentA = population.get(i);
                 parentB = population.get(j);
-                newSolutions.add(parentA.MateWith(parentB).Mutate(mutationRate));
+                newSolutions.add(parentA.MateWith(parentB).get(0).Mutate(mutationRate));
             }
         }
 

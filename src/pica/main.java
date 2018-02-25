@@ -1,6 +1,8 @@
 package pica;
 
-import java.util.ArrayList;
+import java.io.IOException;
+
+import main.Read;
 
 public class main {
 
@@ -8,10 +10,10 @@ public class main {
         // TODO Auto-generated constructor stub
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String inputData = args[0];
-        ArrayList<String> temp;
-
+        Pizza pizza = new Pizza(new Read(inputData).getLines());
+        
     }
 
 }

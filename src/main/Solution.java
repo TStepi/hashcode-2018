@@ -1,4 +1,7 @@
 package main;
+
+import java.util.ArrayList;
+
 public interface Solution {
 
     /**
@@ -11,7 +14,7 @@ public interface Solution {
     /**
      * Combines this solution with another one to produce a new solution.
      */
-    Solution MateWith(Solution partner);
+    ArrayList<Solution> MateWith(Solution partner);
 
     /**
      * Describes how good the solution is.

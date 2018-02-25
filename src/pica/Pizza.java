@@ -3,9 +3,9 @@ package pica;
 import java.util.ArrayList;
 
 public class Pizza {
-    int m_R, m_C;
-    int m_L, m_H;
-    boolean[][] m_Pizza; // M for true
+    private int m_R, m_C;
+    private int m_L, m_H;
+    private boolean[][] m_Pizza; // Mushrooms = true
 
     public Pizza(ArrayList<String> pizza) {
         String[] params = pizza.get(0).split(" ");
@@ -20,5 +20,25 @@ public class Pizza {
                 m_Pizza[r - 1][c] = line.charAt(m_C) == 'M'; 
             }
         }
+    }
+    
+    public int getR(){
+        return m_R;
+    }
+    
+    public int getC(){
+        return m_R;
+    }
+    
+    public int getL(){
+        return m_R;
+    }
+    
+    public int getH(){
+        return m_R;
+    }
+    
+    public boolean[][] getPizza(){
+        return m_Pizza;
     }
 }

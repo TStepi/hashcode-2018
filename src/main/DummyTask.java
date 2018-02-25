@@ -1,4 +1,5 @@
 package main;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -28,14 +29,16 @@ public class DummyTask implements Solution {
     }
 
     // Each coordinate is chosen from a random parent.
-    public DummyTask MateWith(Solution partner) {
+    public ArrayList<Solution> MateWith(Solution partner) {
         DummyTask result = new DummyTask(coordinates);
+        ArrayList<Solution> results = new ArrayList<Solution>();
         for (int i=0; i<5; i++){
             if (rng.nextBoolean()){
                 result.coordinates[i] = ((DummyTask)partner).coordinates[i];
             }
         }
-        return result;
+        results.add(result);
+        return results;
     }
 
     // -sum of squared differences between the coordinates
