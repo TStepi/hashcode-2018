@@ -12,10 +12,10 @@ public class Main {
 
         // Simulating 200 generations
         Evolution optimator = new Evolution(initialPopulation);
-        for (int i=0; i<200; i++){
-            optimator.nextGeneration(true,10,0.2);
-            if (i%10 == 0)
-                System.out.println(String.format("Step: %d   Fitness: %f",i,optimator.population.get(0).Fitness()));
+        for (int i=0; i<20000; i++){
+            optimator.nextGeneration(true,10,0.02);
+            if (i%1000 == 0)
+                System.out.println(String.format("Step: %d   Fitness: %.10f",i,optimator.population.get(0).Fitness()));
         }
 
         // Show the final solution

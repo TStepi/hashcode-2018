@@ -25,7 +25,7 @@ public class Evolution {
         List<Solution> newSolutions = new ArrayList<Solution>();
         Solution parentA, parentB;
         for (int i=0; i < population.size()-1; i++){
-            for (int j=1; j<population.size(); j++){
+            for (int j=i+1; j<population.size(); j++){
                 parentA = population.get(i);
                 parentB = population.get(j);
                 newSolutions.add(parentA.MateWith(parentB).Mutate(mutationRate));

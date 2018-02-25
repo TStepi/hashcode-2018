@@ -37,7 +37,7 @@ public class DummyTask implements Solution {
         return result;
     }
 
-    // sum of squared differences between the coordinates
+    // -sum of squared differences between the coordinates
     public double Fitness() {
         double diff = 0;
         for (int i=0; i<5; i++){
