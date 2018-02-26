@@ -13,12 +13,17 @@ public class PizzaTask implements Solution {
 
     public PizzaTask(Pizza pizza) {
         m_Pizza = pizza;
-        // TODO: create slices
+        letThereBeSlices();
     }
     
     public PizzaTask(Pizza pizza, ArrayList<Slice> slices){
         m_Pizza = pizza;
         m_Slices = slices;
+    }
+    
+    
+    public void letThereBeSlices() {
+    	// TODO: create slices out of nowhere
     }
 
     @Override
