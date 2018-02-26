@@ -41,4 +41,18 @@ public class Pizza {
     public boolean[][] getPizza(){
         return m_Pizza;
     }
+    
+    public int[] countMushroomTomato(int row1, int row2, int col1, int col2) {
+    	int[] mush_tom = new int[] {0, 0};
+    	for(int r = row1; r <= row2; r++) {
+    		for(int c = col1; c <= col2; c++) {
+    			if(m_Pizza[r][c]) {
+    				mush_tom[0]++;
+    			} else {
+    				mush_tom[1]++;
+    			}
+    		}
+    	}
+    	return mush_tom;
+    }
 }

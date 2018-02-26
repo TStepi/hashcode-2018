@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Intial pool of solutions
+        //Initial pool of solutions
         DummyTask initialSolution = new DummyTask(new double[] {0.1, 100, 0.8, 5, 1});
         List<Solution> initialPopulation = new ArrayList<Solution>();
         for (int i=0; i<10; i++) initialPopulation.add(initialSolution.Mutate(1));
