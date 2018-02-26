@@ -9,7 +9,7 @@ import main.Solution;
 public class PizzaTask implements Solution {
     private ArrayList<Slice> m_Slices;
     private Pizza m_Pizza;
-    private Random rng = new Random();
+    private Random m_Rng = new Random();
 
     public PizzaTask(Pizza pizza) {
         m_Pizza = pizza;
@@ -26,18 +26,27 @@ public class PizzaTask implements Solution {
         double maximize = 0.7;
         ArrayList<Slice> slices = new ArrayList<Slice>();
         for (Slice slice : m_Slices){
-            Slice newSlice = new Slice(slice);
-            if (rng.nextDouble() < rate){
-            	ArrayList<Slice> maxCand = dirMaximize(newSlice, slices);
-            	ArrayList<Slice> minCand = dirMinimize(newSlice, slices);
-            	
-                
+        	Slice newSlice;
+            if (m_Rng.nextDouble() < rate){
+            	ArrayList<Slice> maxCand = dirMaximize(slice, slices);
+            	ArrayList<Slice> minCand = dirMinimize(slice);
+            	ArrayList<Slice> candidates;
+            	if (maxCand.size() > 0 && minCand.size() > 0) { // choose randomly
+            		candidates = m_Rng.nextDouble() < maximize ? maxCand : minCand;
+            	} else if (maxCand.size() > 0) {				// max
+            		candidates = maxCand;
+            	} else if (minCand.size() > 0) {				// min
+            		candidates = minCand;
+            	} else {										// the current one ...
+            		candidates = new ArrayList<Slice>();
+            		candidates.add(slice);
+            	}
+            	newSlice = candidates.get(m_Rng.nextInt(candidates.size()));
+            } else {
+            	newSlice = slice;
             }
-            slices.add(newSlice);
         }
-        
-        Solution newPizza = new PizzaTask(m_Pizza, slices);
-        return null;
+        return new PizzaTask(m_Pizza, slices);
     }
     
     private ArrayList<Slice> dirMaximize(Slice slice, ArrayList<Slice> slices){
@@ -55,8 +64,7 @@ public class PizzaTask implements Solution {
     	}
         // left
         if (slice.getM_Column1() > 0) {
-
-	        newSliceL.setM_Column1(Math.max(slice.getM_Column1()-1, 0));
+	        newSliceL.setM_Column1(slice.getM_Column1()-1);
 	        if (!noIntersection(slices, newSliceL)) {
 	        	isOK = false;
 	        } else {
@@ -74,7 +82,7 @@ public class PizzaTask implements Solution {
         isOK = true;
         // right
         if (slice.getM_Column2() + 1 < m_Pizza.getC()) {
-	        newSliceR.setM_Column2(Math.min(slice.getM_Column2() + 1, m_Pizza.getC() - 1));
+	        newSliceR.setM_Column2(slice.getM_Column2() + 1);
 	        if (!noIntersection(slices, newSliceR)) {
 	        	isOK = false;
 	        } else {
@@ -110,7 +118,7 @@ public class PizzaTask implements Solution {
         isOK = true;
         // down
         if(slice.getM_Row2() + 1 < m_Pizza.getR()) {
-	        newSliceD.setM_Row2(Math.min(slice.getM_Row2() + 1,  m_Pizza.getR() - 1));
+	        newSliceD.setM_Row2(slice.getM_Row2() + 1);
 	        if (!noIntersection(slices, newSliceD)) {
 	        	isOK = false;
 	        } else {
@@ -128,7 +136,7 @@ public class PizzaTask implements Solution {
         return candidates;
     }
     
-    private ArrayList<Slice> dirMinimize(Slice slice, ArrayList<Slice> slices){
+    private ArrayList<Slice> dirMinimize(Slice slice){
     	ArrayList<Slice> candidates = new ArrayList<Slice>();
 
         Slice newSliceL = new Slice(slice);
@@ -236,8 +244,6 @@ public class PizzaTask implements Solution {
 
     public ArrayList<Slice> getM_Slices() {
         return m_Slices;
-    }
-        
-    
+    }   
 
 }
