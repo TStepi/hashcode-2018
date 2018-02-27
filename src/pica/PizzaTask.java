@@ -77,7 +77,7 @@ public class PizzaTask implements Solution {
             if (inds[current] >= nums[current]){
                 current = 1 - current;
             }
-            Slice candidate = slicess.get(current).get(inds[current]); 
+            Slice candidate = slicess.get(current).get(inds[current]);
             boolean isOk = canAddToPizza(child, candidate);
             while (inds[current] < nums[current] && !isOk){
                 inds[current]++;

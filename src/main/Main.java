@@ -3,9 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-
     public static void main(String[] args) {
-
         //Intial pool of solutions
         DummyTask initialSolution = new DummyTask(new double[] {0.1, 100, 0.8, 5, 1});
         List<Solution> initialPopulation = new ArrayList<Solution>();
