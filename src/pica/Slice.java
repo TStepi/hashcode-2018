@@ -2,22 +2,22 @@ package pica;
 
 public class Slice implements Comparable<Slice> {
     private int m_Row1, m_Column1, m_Row2, m_Column2;
-    private int m_mush, m_tomato;
+    private int m_Mush, m_Tomato;
     
     public int getM_mush() {
-        return m_mush;
+        return m_Mush;
     }
 
     public void setM_mush(int m_mush) {
-        this.m_mush = m_mush;
+        this.m_Mush = m_mush;
     }
 
     public int getM_tomato() {
-        return m_tomato;
+        return m_Tomato;
     }
 
     public void setM_tomato(int m_tomato) {
-        this.m_tomato = m_tomato;
+        this.m_Tomato = m_tomato;
     }
 
     public Slice(int r1, int c1, int r2, int c2, int mush, int tom) {
@@ -25,8 +25,8 @@ public class Slice implements Comparable<Slice> {
         m_Row2 = Math.max(r1, r2);
         m_Column1 = Math.min(c1, c2);
         m_Column2 = Math.max(c1, c2);
-        m_mush = mush;
-        m_tomato = tom;
+        m_Mush = mush;
+        m_Tomato = tom;
     }
     
     public Slice(Slice slice){
@@ -34,8 +34,8 @@ public class Slice implements Comparable<Slice> {
         m_Row2 = slice.getM_Row2();
         m_Column1 = slice.getM_Column1();
         m_Column2 = slice.getM_Column2();
-        m_mush = slice.getM_mush();
-        m_tomato = slice.getM_tomato();
+        m_Mush = slice.getM_mush();
+        m_Tomato = slice.getM_tomato();
     }
 
     public void setM_Row1(int m_Row1) {
@@ -92,5 +92,9 @@ public class Slice implements Comparable<Slice> {
     
     public boolean nonEmptyIntervalIntersection(int start1, int end1, int start2, int end2){
         return Math.max(start1, start2) < Math.min(end1, end2);
+    }
+    
+    public boolean isToppingOK(int minTopping, int maxTopping) {
+    	return minTopping <= m_Mush && m_Mush <= maxTopping && minTopping <= m_Tomato && m_Tomato <= maxTopping;
     }
 }

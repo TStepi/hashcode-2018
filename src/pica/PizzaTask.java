@@ -9,16 +9,21 @@ import main.Solution;
 public class PizzaTask implements Solution {
     private ArrayList<Slice> m_Slices;
     private Pizza m_Pizza;
-    private Random rng = new Random();
+    private Random m_Rng = new Random();
 
     public PizzaTask(Pizza pizza) {
         m_Pizza = pizza;
-        // TODO: create slices
+        letThereBeSlices();
     }
     
     public PizzaTask(Pizza pizza, ArrayList<Slice> slices){
         m_Pizza = pizza;
         m_Slices = slices;
+    }
+    
+    
+    public void letThereBeSlices() {
+    	// TODO: create slices out of nowhere
     }
 
     @Override
@@ -26,31 +31,162 @@ public class PizzaTask implements Solution {
         double maximize = 0.7;
         ArrayList<Slice> slices = new ArrayList<Slice>();
         for (Slice slice : m_Slices){
-            Slice newSlice = new Slice(slice);
-            if (rng.nextDouble() < rate){
-                
+        	Slice newSlice;
+            if (m_Rng.nextDouble() < rate){
+            	ArrayList<Slice> maxCand = dirMaximize(slice, slices);
+            	ArrayList<Slice> minCand = dirMinimize(slice);
+            	ArrayList<Slice> candidates;
+            	if (maxCand.size() > 0 && minCand.size() > 0) { // choose randomly
+            		candidates = m_Rng.nextDouble() < maximize ? maxCand : minCand;
+            	} else if (maxCand.size() > 0) {				// max
+            		candidates = maxCand;
+            	} else if (minCand.size() > 0) {				// min
+            		candidates = minCand;
+            	} else {										// the current one ...
+            		candidates = new ArrayList<Slice>();
+            		candidates.add(slice);
+            	}
+            	newSlice = candidates.get(m_Rng.nextInt(candidates.size()));
+            } else {
+            	newSlice = slice;
             }
-            slices.add(newSlice);
         }
-        
-        Solution newPizza = new PizzaTask(m_Pizza, slices);
-        return null;
+        return new PizzaTask(m_Pizza, slices);
     }
     
-    private boolean[] dirMaximize(Slice slice, ArrayList<Slice> slices){
-        boolean[] yesNo = new boolean[4];
-        for (int i = 0; i<4; i++){
-            yesNo[i] = true;
+    private ArrayList<Slice> dirMaximize(Slice slice, ArrayList<Slice> slices){
+    	ArrayList<Slice> candidates = new ArrayList<Slice>();
+        boolean isOK = true;
+        Slice newSliceL = new Slice(slice);
+        Slice newSliceR = new Slice(slice);
+        Slice newSliceU = new Slice(slice);
+        Slice newSliceD = new Slice(slice);
+    	if( slice.getM_Column1() == 0 ||
+    		slice.getM_Column2() + 1 == m_Pizza.getC() ||
+    		slice.getM_Row1() == 0 ||
+    		slice.getM_Row2() + 1 == m_Pizza.getR()) {
+    		// TODO do we want such "new" candidates
+    	}
+        // left
+        if (slice.getM_Column1() > 0) {
+	        newSliceL.setM_Column1(slice.getM_Column1()-1);
+	        if (!noIntersection(slices, newSliceL)) {
+	        	isOK = false;
+	        } else {
+	        	int[] new_mush_tomato = m_Pizza.countMushroomTomato(newSliceL.getM_Row1(), newSliceL.getM_Row2(), newSliceL.getM_Column1(), newSliceL.getM_Column1());
+	        	newSliceL.setM_mush(newSliceL.getM_mush() + new_mush_tomato[0]);
+	        	newSliceL.setM_tomato(newSliceL.getM_tomato() + new_mush_tomato[1]);
+	        	if(!newSliceL.isToppingOK(m_Pizza.getL(), m_Pizza.getH())) {
+	        		isOK = false;
+	        	}
+	        }
+	        if (isOK) {
+	        	candidates.add(newSliceL);
+	        }
         }
-        Slice newSlice = new Slice(slice);
-        newSlice.setM_Column1(Math.max(slice.getM_Column1()-1, 0)); //TODO..
-        for (Slice sl : slices){
-            if (sl.nonEmptyIntersection(newSlice)){
-                yesNo[0] = false;
-                break;
-            }
+        isOK = true;
+        // right
+        if (slice.getM_Column2() + 1 < m_Pizza.getC()) {
+	        newSliceR.setM_Column2(slice.getM_Column2() + 1);
+	        if (!noIntersection(slices, newSliceR)) {
+	        	isOK = false;
+	        } else {
+	        	int[] new_mush_tomato = m_Pizza.countMushroomTomato(newSliceR.getM_Row1(), newSliceR.getM_Row2(), newSliceR.getM_Column2(), newSliceR.getM_Column2());
+	        	newSliceR.setM_mush(newSliceR.getM_mush() + new_mush_tomato[0]);
+	        	newSliceR.setM_tomato(newSliceR.getM_tomato() + new_mush_tomato[1]);
+	        	if(!newSliceR.isToppingOK(m_Pizza.getL(), m_Pizza.getH())) {
+	        		isOK = false;
+	        	}
+	        }
+	        if (isOK) {
+	        	candidates.add(newSliceR);
+	        }
         }
-        return yesNo;
+        isOK = true;
+        // up
+        if (slice.getM_Row1() > 0) {
+	        newSliceU.setM_Row1(slice.getM_Row1() - 1);
+	        if (!noIntersection(slices, newSliceU)) {
+	        	isOK = false;
+	        } else {
+	        	int[] new_mush_tomato = m_Pizza.countMushroomTomato(newSliceU.getM_Row1(), newSliceU.getM_Row1(), newSliceU.getM_Column1(), newSliceU.getM_Column2());
+	        	newSliceU.setM_mush(newSliceU.getM_mush() + new_mush_tomato[0]);
+	        	newSliceU.setM_tomato(newSliceU.getM_tomato() + new_mush_tomato[1]);
+	        	if(!newSliceU.isToppingOK(m_Pizza.getL(), m_Pizza.getH())) {
+	        		isOK = false;
+	        	}
+	        }
+	        if (isOK) {
+	        	candidates.add(newSliceU);
+	        }
+        }
+        isOK = true;
+        // down
+        if(slice.getM_Row2() + 1 < m_Pizza.getR()) {
+	        newSliceD.setM_Row2(slice.getM_Row2() + 1);
+	        if (!noIntersection(slices, newSliceD)) {
+	        	isOK = false;
+	        } else {
+	        	int[] new_mush_tomato = m_Pizza.countMushroomTomato(newSliceD.getM_Row2(), newSliceD.getM_Row2(), newSliceD.getM_Column1(), newSliceD.getM_Column2());
+	        	newSliceD.setM_mush(newSliceD.getM_mush() + new_mush_tomato[0]);
+	        	newSliceD.setM_tomato(newSliceD.getM_tomato() + new_mush_tomato[1]);
+	        	if(!newSliceD.isToppingOK(m_Pizza.getL(), m_Pizza.getH())) {
+	        		isOK = false;
+	        	}
+	        }
+	        if (isOK) {
+	        	candidates.add(newSliceD);
+	        }
+        }
+        return candidates;
+    }
+    
+    private ArrayList<Slice> dirMinimize(Slice slice){
+    	ArrayList<Slice> candidates = new ArrayList<Slice>();
+
+        Slice newSliceL = new Slice(slice);
+        Slice newSliceR = new Slice(slice);
+        Slice newSliceU = new Slice(slice);
+        Slice newSliceD = new Slice(slice);
+        int[] new_mush_tomato;
+        // left, right
+        if (slice.getM_Column1() < slice.getM_Column2()) {
+	        newSliceL.setM_Column1(slice.getM_Column1() + 1);
+        	new_mush_tomato = m_Pizza.countMushroomTomato(newSliceL.getM_Row1(), newSliceL.getM_Row2(), newSliceL.getM_Column1()-1, newSliceL.getM_Column1()-1);
+        	newSliceL.setM_mush(newSliceL.getM_mush() - new_mush_tomato[0]);
+        	newSliceL.setM_tomato(newSliceL.getM_tomato() - new_mush_tomato[1]);
+        	if(newSliceL.isToppingOK(m_Pizza.getL(), m_Pizza.getH())) {
+        		candidates.add(newSliceL);
+        	}
+        	
+        	newSliceR.setM_Column2(slice.getM_Column2() - 1);
+        	new_mush_tomato = m_Pizza.countMushroomTomato(newSliceR.getM_Row1(), newSliceR.getM_Row2(), newSliceR.getM_Column2()+1, newSliceR.getM_Column2()+1);
+        	newSliceR.setM_mush(newSliceR.getM_mush() - new_mush_tomato[0]);
+        	newSliceR.setM_tomato(newSliceR.getM_tomato() - new_mush_tomato[1]);
+        	if(newSliceR.isToppingOK(m_Pizza.getL(), m_Pizza.getH())) {
+        		candidates.add(newSliceR);
+        	}
+        }
+
+        // up, down
+        if (slice.getM_Row1() < slice.getM_Row2()) {
+	        newSliceU.setM_Row1(slice.getM_Row1() + 1);
+        	new_mush_tomato = m_Pizza.countMushroomTomato(newSliceU.getM_Row1()-1, newSliceU.getM_Row1()-1, newSliceU.getM_Column1(), newSliceU.getM_Column2());
+        	newSliceU.setM_mush(newSliceU.getM_mush() - new_mush_tomato[0]);
+        	newSliceU.setM_tomato(newSliceU.getM_tomato() - new_mush_tomato[1]);
+        	if(newSliceU.isToppingOK(m_Pizza.getL(), m_Pizza.getH())) {
+        		candidates.add(newSliceU);
+        	}
+        	
+        	newSliceD.setM_Row2(slice.getM_Row2() - 1);
+        	new_mush_tomato = m_Pizza.countMushroomTomato(newSliceD.getM_Row2()+1, newSliceD.getM_Row2()+1, newSliceD.getM_Column1(), newSliceD.getM_Column2());
+        	newSliceD.setM_mush(newSliceD.getM_mush() + new_mush_tomato[0]);
+        	newSliceD.setM_tomato(newSliceD.getM_tomato() + new_mush_tomato[1]);
+        	if(newSliceD.isToppingOK(m_Pizza.getL(), m_Pizza.getH())) {
+        		candidates.add(newSliceD);
+        	}
+        }
+        return candidates;
     }
 
     @Override
@@ -77,12 +213,12 @@ public class PizzaTask implements Solution {
             if (inds[current] >= nums[current]){
                 current = 1 - current;
             }
-            Slice candidate = slicess.get(current).get(inds[current]);
-            boolean isOk = canAddToPizza(child, candidate);
+            Slice candidate = slicess.get(current).get(inds[current]); 
+            boolean isOk = noIntersection(child, candidate);
             while (inds[current] < nums[current] && !isOk){
                 inds[current]++;
                 candidate = slicess.get(current).get(inds[current]);
-                isOk = canAddToPizza(child, candidate);
+                isOk = noIntersection(child, candidate);
             }
             if (isOk){
                 child.add(candidate);
@@ -93,7 +229,7 @@ public class PizzaTask implements Solution {
         return new PizzaTask(m_Pizza, child);
     }
     
-    private boolean canAddToPizza(ArrayList<Slice> child, Slice candidate){
+    private boolean noIntersection(ArrayList<Slice> child, Slice candidate){
         for (Slice slice : child){
             if (slice.nonEmptyIntersection(candidate)){
                 return false;
@@ -113,8 +249,6 @@ public class PizzaTask implements Solution {
 
     public ArrayList<Slice> getM_Slices() {
         return m_Slices;
-    }
-    
-    
+    }   
 
 }
