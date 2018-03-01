@@ -8,13 +8,13 @@ public class Vehicle {
     public List<Ride> urnik;
     int step;
     int[] location;
-    int score;
+    long score;
 
     public Vehicle(){
         urnik = new ArrayList<Ride>();
     }
 
-    public int Evaluate(int T, int B){
+    public long Evaluate(int T, int B){
         step = 0;
         location = new int[] {0, 0};
         score = 0;
