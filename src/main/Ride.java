@@ -17,7 +17,7 @@ public class Ride {
                 Math.abs(finishIntersection[1] - startIntersection[1]);
     }
 
-    public int Score(int B, int startStep, int finishStep){
+    public long Score(int B, int startStep, int finishStep){
         if (finishStep > latestFinish) return 0;
         else if (startStep == earliestStart) return length + B;
         else return length;
