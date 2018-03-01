@@ -15,6 +15,11 @@ public class Zahtevek implements Comparable<Zahtevek>{
         dolz = Math.abs(params[0] - params[2]) + Math.abs(params[1] - params[3]);
         this.id = id;
     }
+    
+    public Ride predelaj(){
+        return new Ride(new int[]{params[0], params[1]}, new int[]{params[2], params[3]},
+                params[4], params[5]);
+    }
 
     @Override
     public int compareTo(Zahtevek other) {

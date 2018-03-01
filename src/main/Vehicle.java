@@ -6,21 +6,18 @@ import java.util.List;
 public class Vehicle {
 
     public List<Ride> urnik;
-    int step;
-    int[] location;
-    long score;
 
     public Vehicle(){
         urnik = new ArrayList<Ride>();
     }
 
     public long Evaluate(int T, int B){
-        step = 0;
-        location = new int[] {0, 0};
-        score = 0;
+        int step = 0;
+        int[] location = new int[] {0, 0};
+        long score = 0;
 
         for (int i = 0; i<urnik.size(); i++){
-            DoRide(B, urnik.get(i));
+            DoRide(B, urnik.get(i), step, location, score);
 
             if (step >= T) break;
         }
@@ -28,7 +25,7 @@ public class Vehicle {
         return score;
     }
 
-    void DoRide(int B, Ride r){
+    void DoRide(int B, Ride r, int step, int[] location, long score){
         step += Math.abs(location[0] - r.startIntersection[0]) + Math.abs(location[1] - r.startIntersection[1]);
         location = r.finishIntersection;
         if (step < r.earliestStart) step = r.earliestStart;
