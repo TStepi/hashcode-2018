@@ -10,9 +10,9 @@ if __name__ == '__main__':
     ## Simulating 200 generations
     optimator = Evolution(initialPopulation)
     for i in range(2000):
-        optimator.nextGeneration(True,10,0.02);
-        if (i % 1000 == 0):
-            print("Step: %d  Fitness %.10f" % (i,optimator.population[0].fitness()))
+        optimator.nextGeneration(True,10,0.02)
+        if i % 1000 == 0:
+            print("Step: %d  Fitness %.10f" % (i, optimator.population[0].fitness()))
 
     print("Final solution: ")
     result = optimator.population[0]

@@ -20,7 +20,7 @@ class Evolution:
            for i in range(len(self.population)-1)
            for j in range(i, len(self.population))]
 
-        if (elitism):
+        if elitism:
             newSolutions += self.population
 
         newSolutions.sort(key=lambda x: -x.fitness())
