@@ -19,7 +19,7 @@ public class Annealing {
         rng.nextDouble();
 
         for (int i=0; i<iterations; i++){
-            if (i%1 == 0) System.out.println(i);
+            if (i%50 == 0) System.out.println(i);
 
             SchedulingTask candidate = solution.Mutate(0.1);
             long newScore = candidate.Fitness();

@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 public class SchedulingTask {
 
-    Vehicle[] vozila;
+    public Vehicle[] vozila;
     HashMap<Ride, Boolean> statusi;
     int B, T;
     Random rng;

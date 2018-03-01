@@ -1,12 +1,16 @@
 package main;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+    static String datoteka = "c_no_hurry";
     public static void main(String[] args) throws IOException {
         int R, C, F, N, B, T;
-        String file = "/data/Documents/Repositories/hashcode-2018/inputData/rides/e_high_bonus.in";
+        String file = "/data/Documents/Repositories/hashcode-2018/inputData/rides/"+datoteka+".in";
         ArrayList<String> lines = (new Read(file)).getLines();
         String[] params = lines.get(0).split(" ");
         R = Integer.parseInt(params[0]);
@@ -29,17 +33,17 @@ public class Main {
         Annealing optimizacija = new Annealing();
 
         SchedulingTask dobra = optimizacija.RunOptimization(naloga);
+        output(dobra);
         System.out.println("Končal");
     }
 
-    public static output(SchedulingTask resitev) {
-        PrintWriter writer = new PrintWriter("/data/Documents/Repositories/hashcode-2018/inputData/rides/e_high_bonus.out", "UTF-8");
-        for (Vehicle v: SchedulingTask.vozila) {
-            String string = '' + v.urnik.size();
+    public static void output(SchedulingTask resitev) throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter writer = new PrintWriter("/data/Documents/Repositories/hashcode-2018/inputData/rides/"+datoteka+".out", "UTF-8");
+        for (Vehicle v: resitev.vozila) {
+            String string = "" + v.urnik.size();
             for (Ride r: v.urnik) {
-                string += ' ' + r.number;
+                string += " " + r.number;
             }
-            string += '\n'
             writer.println(string);
         }
         writer.close();    
