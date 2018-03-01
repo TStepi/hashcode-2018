@@ -4,3 +4,4 @@ bin
 .project
 .DS_store
 src/python/__pycache__/
+.idea/
