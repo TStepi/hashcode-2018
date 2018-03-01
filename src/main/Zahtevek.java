@@ -5,14 +5,15 @@ import pica.Slice;
 public class Zahtevek implements Comparable<Zahtevek>{
     int[] params;// x1 y1 x2 y2 tS tE
     int dolz;
-    int trenutniT;
+    int id;
     
     
     boolean narjen = false;
 
-    public Zahtevek(int[] params) {
+    public Zahtevek(int[] params, int id) {
         this.params = params;
         dolz = Math.abs(params[0] - params[2]) + Math.abs(params[1] - params[3]);
+        this.id = id;
     }
 
     @Override
@@ -26,11 +27,15 @@ public class Zahtevek implements Comparable<Zahtevek>{
     }
     
     public double vrednost(){
-        if (trenutniT + dolz <= params[5]){ // + B ??
-            return dolz * (params[4] - trenutniT); 
+        if (Naive.trenutni + dolz <= params[5]){ // + B ??
+            return -dolz * (params[4] - Naive.trenutni); 
         } else{
             return Double.NEGATIVE_INFINITY;
         }
         
+    }
+    
+    public void posodobi(){
+        narjen = true;
     }
 }
