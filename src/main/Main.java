@@ -21,7 +21,7 @@ public class Main {
             zahtevki.add(new Ride(
                     new int[] {Integer.parseInt(ride[0]), Integer.parseInt(ride[1])},
                     new int[] {Integer.parseInt(ride[2]), Integer.parseInt(ride[3])},
-                    Integer.parseInt(ride[4]), Integer.parseInt(ride[5])
+                    Integer.parseInt(ride[4]), Integer.parseInt(ride[5]), z - 1
                     ));
         }
 
@@ -30,5 +30,18 @@ public class Main {
 
         SchedulingTask dobra = optimizacija.RunOptimization(naloga);
         System.out.println("Končal");
+    }
+
+    public static output(SchedulingTask resitev) {
+        PrintWriter writer = new PrintWriter("/data/Documents/Repositories/hashcode-2018/inputData/rides/e_high_bonus.out", "UTF-8");
+        for (Vehicle v: SchedulingTask.vozila) {
+            String string = '' + v.urnik.size();
+            for (Ride r: v.urnik) {
+                string += ' ' + r.number;
+            }
+            string += '\n'
+            writer.println(string);
+        }
+        writer.close();    
     }
 }
