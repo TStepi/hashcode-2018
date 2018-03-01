@@ -3,6 +3,8 @@ package main;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public class Naive {
     public static int trenutni;
@@ -25,21 +27,31 @@ public class Naive {
                 zahtevki[z - 1][j] = Integer.parseInt(ride[j]);
             }
         }
+        Avto[] avti = create();
+        for(int i = 0; i < avti.length; i++){
+            System.out.println("i: " + i + " voznje: " + avti[i].voznje);
+        }
     }
     
-    public void create(){
+    public Avto[] create(){
         Avto[] avti = new Avto[F];
         for(int f = 0; f < F; f++){
             avti[f] = new Avto(0, 0, 0);
         }
         Zahtevek[] zaht = new Zahtevek[N];
         for(int n = 0; n < N; n++){
-            zaht[n] = new Zahtevek(zahtevki[n]);
+            zaht[n] = new Zahtevek(zahtevki[n], n);
         }
-        ArrayList<Integer> casi = new ArrayList<Integer>();
-        for (Integer c : casi){
+        PriorityQueue<Integer> casi = new PriorityQueue<Integer>();
+        casi.add(0);
+        int frejAvti = 0;
+        HashMap<Integer, Integer> kokKdajSprosti = new HashMap<Integer, Integer>();
+        kokKdajSprosti.put(0, F);
+        while (!casi.isEmpty()){
+            Naive.trenutni = casi.remove();
+            frejAvti += kokKdajSprosti.get(Naive.trenutni);
             ArrayList<Zahtevek> neobdelano = new ArrayList<Zahtevek>();
-            // poberi neobdelane
+            // poberi neobdelane: potratno
             for (Zahtevek zah: zaht){
                if (!zah.narjen){
                    neobdelano.add(zah);
@@ -47,11 +59,22 @@ public class Naive {
             }
             Collections.sort(neobdelano);
             for (Zahtevek neobd : neobdelano){
+                if(frejAvti == 0){
+                    break;
+                }
                 Avto izbrani = najdiAvto(neobd, avti);
-                // posodobi avto
-                avto.posodobi(neobd);
+                frejAvti--;
+                // posodobi
+                izbrani.posodobi(neobd);
+                neobd.posodobi();
+                if (!kokKdajSprosti.containsKey(izbrani.doKdaj)){
+                    kokKdajSprosti.put(izbrani.doKdaj, 0);
+                }
+                kokKdajSprosti.put(izbrani.doKdaj, 1 + kokKdajSprosti.get(izbrani.doKdaj));
+                casi.add(izbrani.doKdaj);
             }
         }
+        return avti;
     }
     
     public static int dist(int x1, int y1, int x2, int y2){

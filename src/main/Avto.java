@@ -14,7 +14,9 @@ public class Avto {
     }
     
     public void posodobi(Zahtevek zah){
-        doKdaj = Naive.trenutni + dist(x, y, zah.params[0], zah.params[1])
+        doKdaj = Naive.trenutni + Naive.dist(x, y, zah.params[0], zah.params[1]) + zah.dolz;
+        x = zah.params[2];
+        y = zah.params[3];
+        voznje.add(zah.id);
     }
-
 }
