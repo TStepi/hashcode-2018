@@ -23,6 +23,7 @@ public class Annealing {
 
             SchedulingTask candidate = solution.Mutate(0.1);
             long newScore = candidate.Fitness();
+            System.out.println(newScore);
 
             if (newScore > bestScore){
                 bestScore = newScore;
