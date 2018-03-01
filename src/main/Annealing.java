@@ -19,6 +19,7 @@ public class Annealing {
         rng.nextDouble();
 
         for (int i=0; i<iterations; i++){
+            if (i%1 == 0) System.out.println(i);
 
             SchedulingTask candidate = solution.Mutate(0.1);
             long newScore = candidate.Fitness();
@@ -26,6 +27,7 @@ public class Annealing {
             if (newScore > bestScore){
                 bestScore = newScore;
                 best = candidate;
+                System.out.println("New best score: "+bestScore);
             }
 
             if (rng.nextDouble() < Math.exp((newScore - currentScore) / temp)){

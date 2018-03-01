@@ -1,27 +1,34 @@
 package main;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
-        //Initial pool of solutions
-        DummyTask initialSolution = new DummyTask(new double[] {0.1, 100, 0.8, 5, 1});
-        List<Solution> initialPopulation = new ArrayList<Solution>();
-        for (int i=0; i<10; i++) initialPopulation.add(initialSolution.Mutate(1));
-
-        // Simulating 200 generations
-        Evolution optimator = new Evolution(initialPopulation);
-        for (int i=0; i<20000; i++){
-            optimator.nextGeneration(true,10,0.02);
-            if (i%1000 == 0)
-                System.out.println(String.format("Step: %d   Fitness: %.10f",i,optimator.population.get(0).Fitness()));
+    public static void main(String[] args) throws IOException {
+        int R, C, F, N, B, T;
+        String file = "/data/Documents/Repositories/hashcode-2018/inputData/rides/e_high_bonus.in";
+        ArrayList<String> lines = (new Read(file)).getLines();
+        String[] params = lines.get(0).split(" ");
+        R = Integer.parseInt(params[0]);
+        C = Integer.parseInt(params[1]);
+        F = Integer.parseInt(params[2]);
+        N = Integer.parseInt(params[3]);
+        B = Integer.parseInt(params[4]);
+        T = Integer.parseInt(params[5]);
+        List<Ride> zahtevki = new ArrayList<>();
+        for (int z = 1; z < lines.size(); z++) {
+            String[] ride = lines.get(z).split(" ");
+            zahtevki.add(new Ride(
+                    new int[] {Integer.parseInt(ride[0]), Integer.parseInt(ride[1])},
+                    new int[] {Integer.parseInt(ride[2]), Integer.parseInt(ride[3])},
+                    Integer.parseInt(ride[4]), Integer.parseInt(ride[5])
+                    ));
         }
 
-        // Show the final solution
-        System.out.println("Final solution:");
-        DummyTask result = (DummyTask) optimator.population.get(0);
-        for (int i=0; i<5; i++){
-            System.out.println(result.coordinates[i]);
-        }
+        SchedulingTask naloga = new SchedulingTask(B, T, F, zahtevki);
+        Annealing optimizacija = new Annealing();
+
+        SchedulingTask dobra = optimizacija.RunOptimization(naloga);
+        System.out.println("Končal");
     }
 }

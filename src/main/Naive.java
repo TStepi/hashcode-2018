@@ -72,6 +72,7 @@ public class Naive {
                 }
                 kokKdajSprosti.put(izbrani.doKdaj, 1 + kokKdajSprosti.get(izbrani.doKdaj));
                 casi.add(izbrani.doKdaj);
+
             }
         }
         return avti;
