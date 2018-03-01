@@ -37,10 +37,18 @@ public class SchedulingTask {
         int numVozil = kopija.vozila.length;
         for (int i=0; i<numVozil; i++){
             if (rng.nextDouble() < rate){
-                for (Ride r: kopija.vozila[i].urnik){
-                    kopija.statusi.replace(r, false);
+                List<Integer> toRemove = new ArrayList<>();
+                for (int j=0; j<kopija.vozila[i].urnik.size(); j++){
+                    if (rng.nextDouble() < rate){
+                        toRemove.add(j);
+                    }
                 }
-                kopija.vozila[i].urnik = new ArrayList<Ride>();
+                int removed = 0;
+                for (int j: toRemove){
+                    kopija.statusi.replace(kopija.vozila[i].urnik.get(j-removed), false);
+                    kopija.vozila[i].urnik.remove(j-removed);
+                    removed++;
+                }
             }
         }
 
