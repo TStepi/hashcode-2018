@@ -20,7 +20,7 @@ public class Annealing {
 
         for (int i=0; i<iterations; i++){
 
-            SchedulingTask candidate = solution.Mutate();
+            SchedulingTask candidate = solution.Mutate(0.1);
             long newScore = candidate.Fitness();
 
             if (newScore > bestScore){
