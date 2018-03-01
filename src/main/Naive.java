@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Random;
 
 public class Naive {
     public static int trenutni;
     int R, C, F, N, B, T;
     int[][] zahtevki; // x1 y1 x2 y2 tS tE
+    Avto[] m_Avti;
+    Zahtevek[] zaht;
 
     public Naive(String file) throws IOException {
         ArrayList<String> lines = (new Read(file)).getLines();
@@ -31,8 +35,20 @@ public class Naive {
         for(int i = 0; i < avti.length; i++){
             System.out.println("i: " + i + " voznje: " + avti[i].voznje);
         }
+        m_Avti = avti;
     }
     
+    
+    public SchedulingTask predelaj(){
+       ArrayList<Ride> rides = new ArrayList<Ride>();
+       for(Zahtevek zaho : zaht){
+           rides.add(zaho.predelaj());
+       }
+       return new SchedulingTask(B, T, F, rides);
+   }
+    
+    
+       
     public Avto[] create(){
         Avto[] avti = new Avto[F];
         for(int f = 0; f < F; f++){

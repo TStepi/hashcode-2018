@@ -19,5 +19,14 @@ public class Avto {
         y = zah.params[3];
         voznje.add(zah.id);
     }
+    
+    
+    public Vehicle predelaj(Zahtevek[] vozn){
+        Vehicle a = new Vehicle();
+        for (Integer vInd : voznje){
+            a.urnik.add(vozn[vInd].predelaj());
+        }
+        return a;
+    }
 
 }
