@@ -29,6 +29,7 @@ public class Vehicle {
     }
 
     void DoRide(int B, Ride r){
+        step += Math.abs(location[0] - r.startIntersection[0]) + Math.abs(location[1] - r.startIntersection[1]);
         location = r.finishIntersection;
         if (step < r.earliestStart) step = r.earliestStart;
         score += r.Score(B, step, step + r.length);

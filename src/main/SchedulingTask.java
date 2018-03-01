@@ -84,7 +84,10 @@ public class SchedulingTask {
                 izbrano = v;
             }
         }
-        izbrano.InsertRide(r, index);
+        if (bestDelta > 0) {
+            izbrano.InsertRide(r, index);
+            statusi.replace(r, true);
+        }
     }
 
 

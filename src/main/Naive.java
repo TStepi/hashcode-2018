@@ -49,7 +49,7 @@ public class Naive {
             for (Zahtevek neobd : neobdelano){
                 Avto izbrani = najdiAvto(neobd, avti);
                 // posodobi avto
-                avto.posodobi(neobd);
+                //avto.posodobi(neobd);
             }
         }
     }
